@@ -319,6 +319,13 @@
                 hideResults();
             });
             
+            var resetAutocomplete = function() {
+                clearTimeout(showResultsTimeout);
+                showResultsTimeout = null;
+                hideResults(); 
+                lastQuery = "";
+            }
+            
             $input
                 .addClass("autocomplete")
                 .attr("autocomplete", "off")
@@ -340,10 +347,7 @@
                             })(this), settings.delay);
                         }
                     } else {
-                        clearTimeout(showResultsTimeout);
-                        showResultsTimeout = null;
-                        
-                        hideResults(); 
+                    	resetAutocomplete();
                     }
                 })
                 .keydown(function(e) {
@@ -382,10 +386,7 @@
                     
                     // little delay to allow click event on selected item to happen
                     setTimeout(function() {
-                        clearTimeout(showResultsTimeout);
-                        showResultsTimeout = null;
-                        hideResults();
-                        lastQuery = "";
+                    	resetAutocomplete();
                     }, 200);
                 });
         });
