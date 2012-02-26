@@ -98,6 +98,10 @@
             }
         };
         
+        if (typeof options == "string") {
+        	options = { dataSource: options };
+        }
+        
         var settings = $.extend(defaultOptions, options);
         
         
