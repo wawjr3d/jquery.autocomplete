@@ -7,43 +7,37 @@
 ##Options
 
 ####dataSource
-DataSource can be either a string url or a an array of objects.
+`dataSource` can be either a string url or a an array of objects.
 The data returned from the dataSource MUST be an array of objects.
 What else would you want to pass?
             
 ####queryParam
-If dataSource is url, the parameter that will be the search term 
-
+If `dataSource` is url, the parameter that will be the search term.
 **Default:** "q"
 
 
 ####extraParams
-Any extra parameters that you want to pass to the url dataSource
-
+Any extra parameters that you want to pass to the url `dataSource`.
 **Default:** {}
 
 
 ####minimumCharacters
-Minimum number of characters before retrieving results
-
+Minimum number of characters before retrieving results.
 **Default:** 3
           
             
 ####delay
-Time (milliseconds) to wait after user types to go get data
-
+Time (milliseconds) to wait after user types to go get data.
 **Default:** 400
             
             
 ####limit
-Number of results to display
-
+Number of results to display.
 **Default:** 10
 
 
-####showFailure       
-Whether or not to show a failure message when there are no results
-
+####showFailure
+Whether or not to show a failure message when there are no results.
 **Default:** true
 
             
@@ -52,8 +46,7 @@ Whether or not to show a failure message when there are no results
             
             
 ####itemDisplay
-How to display an individual result from data item
-
+How to display an individual result from data item.
 **Default:**
 
 	function(item) {
@@ -62,8 +55,7 @@ How to display an individual result from data item
 
             
 ####itemValue
-How to calculate input's actual value from data item
-
+How to calculate input's actual value from data item.
 **Default:**
 
 	function(item) {
@@ -72,8 +64,7 @@ How to calculate input's actual value from data item
 
          
 ####filter   
-How to run a search against an array of objects as a dataSource
-
+How to run a search against an array of objects as a `dataSource`.
 **Default:**
 
 	function(item, query) {
@@ -82,8 +73,9 @@ How to run a search against an array of objects as a dataSource
 
          
 ####parse   
-How to pull the results out of the data returned from a request for a url dataSource
-e.g. if the results are nested like 
+How to pull the results out of the data returned from a request for a url `dataSource`. 
+
+e.g. if the results are nested like:
 
 	{
 		"search" : {
@@ -97,13 +89,12 @@ then you pass
 		return data.search.results
 	}
 
-**Default: function(data) { return data; }**
+**Default:** `function(data) { return data; }`
 
             
 ####sort
-How to sort results
-
-**Default: function(item1, item2) { return item1.value > item2.value; }**
+How to sort results.
+**Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
 ##Dependencies
 jQuery > v 1.7.1
