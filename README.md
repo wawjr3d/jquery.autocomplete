@@ -12,13 +12,16 @@ The data returned from the dataSource MUST be an array of objects.
 What else would you want to pass?
             
 ####queryParam
+**Default:** "q"
+
 If dataSource is url, the parameter that will be the search term 
 
-**Default: "q"**
+
 
 ####extraParams
+**Default:** {}
+
 Any extra parameters that you want to pass to the url dataSource
-**Default: {}**
 
 ####minimumCharacters
 Minimum number of characters before retrieving results
