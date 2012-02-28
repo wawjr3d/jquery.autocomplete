@@ -2,8 +2,14 @@
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
 ##Usage
+Include jquery, then include the autocomplete, e.g.
 
-	$().autocomplete(url|options);
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
+	
+then call the autocomplete on a jQuery-fied input 
+
+	$("input").autocomplete(url|options);
 
 ##Options
 
@@ -98,7 +104,7 @@ How to sort results. `item1` and `item2` are two autocomplete results.
 **Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
 ##Dependencies
-jQuery > v 1.7.1
+jQuery
 
 
 ##Thanks
