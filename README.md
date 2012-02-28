@@ -15,7 +15,7 @@ then call the autocomplete on a jQuery-fied input
 
 ####dataSource
 `dataSource` can be either a string url or a an array of objects.
-The data returned from the dataSource MUST be an array of objects.
+The `data` returned from the dataSource MUST be an array of objects.
 What else would you want to pass?
             
 ####queryParam
@@ -53,7 +53,8 @@ Whether or not to show a `failureMessage` when there are no results.
             
             
 ####itemDisplay
-How to display an individual result. The signature of `itemDisplay` is `item`. `item` refers to the current result's underlying raw data. 
+How to display an individual result. The signature of `itemDisplay` is `item`.
+`item` refers to the current result's underlying raw data. 
 **Default:**
 
 	function(item) {
@@ -62,7 +63,8 @@ How to display an individual result. The signature of `itemDisplay` is `item`. `
 
             
 ####itemValue
-How to calculate individual result's actual value from underlying `item`. The signature of `itemValue` is `item`. `item` refers to the current result's underlying raw data.
+How to calculate individual result's actual value from underlying `item`.
+The signature of `itemValue` is `item`. `item` refers to the current result's underlying raw data.
 **Default:**
 
 	function(item) {
@@ -71,7 +73,9 @@ How to calculate individual result's actual value from underlying `item`. The si
 
          
 ####filter   
-How to run a search against an array of objects as a `dataSource`. The signature of `itemValue` is `item, query`. `item` refers to the current result's underlying raw data. `query` is the current text the user has input into the text field.
+How to run a search against an array of objects as a `dataSource`.
+The signature of `itemValue` is `item, query`. `item` refers to the current result's underlying raw data.
+`query` is the current text the user has input into the text field.
 **Default:**
 
 	function(item, query) {
