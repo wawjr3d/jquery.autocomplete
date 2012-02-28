@@ -99,3 +99,7 @@ How to sort results.
 
 ##Dependencies
 jQuery > v 1.7.1
+
+
+##Thanks to
+Susanne for early testing and folks at TheLadders for code reviewing early version and
