@@ -12,59 +12,74 @@ The data returned from the dataSource MUST be an array of objects.
 What else would you want to pass?
             
 ####queryParam
-**Default:** "q"
-
 If dataSource is url, the parameter that will be the search term 
 
+**Default:** "q"
 
 
 ####extraParams
+Any extra parameters that you want to pass to the url dataSource
+
 **Default:** {}
 
-Any extra parameters that you want to pass to the url dataSource
 
 ####minimumCharacters
 Minimum number of characters before retrieving results
-**Default: 3**
+
+**Default:** 3
+          
             
 ####delay
 Time (milliseconds) to wait after user types to go get data
-**Default: 400**
+
+**Default:** 400
+            
             
 ####limit
 Number of results to display
-**Default: 10**
+
+**Default:** 10
+
 
 ####showFailure       
 Whether or not to show a failure message when there are no results
-**Default: true**
+
+**Default:** true
+
             
 ####failureMessage
-**Default: "No results found."**
+**Default:** "No results found."
+            
             
 ####itemDisplay
 How to display an individual result from data item
+
 **Default:**
 
 	function(item) {
 		return item.value;
 	}
+
             
 ####itemValue
 How to calculate input's actual value from data item
+
 **Default:**
 
 	function(item) {
 		return item.value;
 	}
+
          
 ####filter   
 How to run a search against an array of objects as a dataSource
+
 **Default:**
 
 	function(item, query) {
 		return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
 	}
+
          
 ####parse   
 How to pull the results out of the data returned from a request for a url dataSource
@@ -83,9 +98,11 @@ then you pass
 	}
 
 **Default: function(data) { return data; }**
+
             
 ####sort
 How to sort results
+
 **Default: function(item1, item2) { return item1.value > item2.value; }**
 
 ##Dependencies
