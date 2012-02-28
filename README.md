@@ -18,7 +18,7 @@ If `dataSource` is url, the parameter that will be the search term.
 
 ####extraParams
 Any extra parameters that you want to pass to the url `dataSource`.
-**Default:** {}
+**Default:** `{}`
 
 
 ####minimumCharacters
