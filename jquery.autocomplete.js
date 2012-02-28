@@ -8,7 +8,9 @@
 	var selectedClass = "selected",
 		
 		// keys
+		KEYLEFT = 37,
 		KEYUP = 38,
+		KEYRIGHT = 39,
 		KEYDOWN = 40,
 		ENTER_KEY = 13;
 		
@@ -110,7 +112,7 @@
         
         var settings = $.extend(defaultOptions, options);
         
-        var getDataWithAjax = typeof settings.dataSource == "string"; // hopefully this is a url
+        var isDataSourceUrl = typeof settings.dataSource == "string"; // hopefully this is a url
          
         
         /*
@@ -134,6 +136,8 @@
             
             $item.addClass(selectedClass);
             $input.val(settings.itemValue(item));
+            
+            $input.trigger("autocompete.item-selected");
         }
         
         function selectPreviousItem($input) {
@@ -223,6 +227,8 @@
                     width: $input.prop("offsetWidth")
                 })
                 .show();
+                
+                $input.trigger("autocompete.show-results");
             }
         }
 
@@ -230,7 +236,7 @@
             
             var deferred = $.Deferred();
             
-            if (getDataWithAjax) {
+            if (isDataSourceUrl) {
                 
                 var urlDataSourceParams = {};
                 $.extend(urlDataSourceParams, settings.extraParams);
@@ -269,7 +275,7 @@
             return deferred;
         }
         
-        function getData($input, query) {
+        function retrieveData($input, query) {
             
             $results.data("hasData", false);
             
@@ -285,6 +291,8 @@
             
             $.when(search(query)).then(function(results) {
             	
+            	$input.trigger("autocomplete.data-retrieved");
+            	
                 results.sort(settings.sort);
             	
                 if (results && results.length) {
@@ -297,9 +305,9 @@
         }
         
         function shouldIgnoreKeyup(keyCode) {
-            return keyCode == 37
+            return keyCode == KEYLEFT
                     || keyCode == KEYUP
-                    || keyCode == 39
+                    || keyCode == KEYRIGHT
                     || keyCode == KEYDOWN
                     || keyCode == ENTER_KEY
         }
@@ -314,6 +322,10 @@
             var $input = $(this);
             
             if ($input.data("autocomplete") == true) { return; }
+            
+            if (typeof settings.dataSource == "undefined" || !settings.dataSource) {
+                throw new Error("a dataSource is required");
+            }
             
             if (this.tagName != "INPUT" || $input.prop("type") != "text") {
                 throw new Error("can only turn inputs into autocompletes");
@@ -349,7 +361,7 @@
                             showResultsTimeout = setTimeout((function(input) {
                                 return function() {
                                     
-                                    getData($(input), input.value);
+                                    retrieveData($(input), input.value);
                                     lastQuery = input.value;
                 
                                 };
