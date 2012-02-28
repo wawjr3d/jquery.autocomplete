@@ -5,6 +5,10 @@
  */
 (function($, undefined) {
 
+	var KEYUP = 38,
+		KEYDOWN = 40,
+		ENTER_KEY = 13;
+		
     
     $.fn.autocomplete = function(options) {
 
@@ -57,14 +61,14 @@
             /*
              * how to calculate input's actual value from data item
              */
-            getValue: function(item) {
+            itemValue: function(item) {
                 return item.value;
             },
             
             /*
              * how to run a search against an array of objects as a dataSource
              */
-            filterStrategy: function(item, query) {
+            filter: function(item, query) {
                 return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
             },
             
@@ -85,15 +89,14 @@
              * }
              *
              */
-            extractionStrategy: function(data) {
+            parse: function(data) {
                 return data;
             },
             
             /*
              * how to sort results
-             * TODO: there should be an option to disable this
              */
-            sortStrategy: function(item1, item2) {
+            sort: function(item1, item2) {
                 return item1.value > item2.value;
             }
         };
@@ -104,6 +107,8 @@
         
         var settings = $.extend(defaultOptions, options);
         
+        var getDataWithAjax = typeof settings.dataSource == "string"; // hopefully this is a url
+         
         
         /*
          * There will only be one result div because
@@ -125,7 +130,7 @@
             var item = $item.data("rawItem");
             
             $item.addClass("selected");
-            $input.val(settings.getValue(item));
+            $input.val(settings.itemValue(item));
         }
         
         function selectPreviousItem($input) {
@@ -180,7 +185,7 @@
         
         function updateResults(results) {
             
-            results.sort(settings.sortStrategy);
+            results.sort(settings.sort);
             
             var builder = [];
             var howmany = Math.min(settings.limit, results.length);
@@ -220,9 +225,7 @@
                 .show();
             }
         }
-        
-        var getDataWithAjax = typeof settings.dataSource == "string"; // hopefully this is a url
-        
+
         function getDataFromDataSource(query) {
             
             var deferred = $.Deferred();
@@ -241,10 +244,10 @@
                     data: urlDataSourceParams,
                     dataType: "json",
                     success: function(data) {
-                        deferred.resolve(settings.extractionStrategy(data));
+                        deferred.resolve(settings.parse(data));
                     },
-                    complete: function() {
-                        deferred.resolve();
+                    error: function() {
+                        deferred.resolve([]);
                     }
                 });
             } else {
@@ -255,7 +258,7 @@
                 for (var i = 0; i < settings.dataSource.length; i++) {
                     var item = data[i];
                     
-                    if (settings.filterStrategy(item, query)) {
+                    if (settings.filter(item, query)) {
                         results.push(item);
                     }
                 }
@@ -353,7 +356,7 @@
                 .keydown(function(e) {
                     if (shouldIgnoreKeydown(e.keyCode)) { return; }
                     
-                    if (e.keyCode == 13) {
+                    if (e.keyCode == ENTER_KEY) {
                         if ($results.is(":visible")) {
                             hideResults();
                             e.preventDefault();
@@ -366,7 +369,7 @@
                     
                     if ($results.is(":visible") && $results.data("hasData")) {
                         switch (e.keyCode) {
-                            case 38:    // up
+                            case KEYUP:
                                 if ($input.val() == lastQuery) {
                                     hideResults();
                                 }
@@ -376,7 +379,7 @@
                                 };
                                 
                                 break;
-                            case 40:    // down
+                            case KEYDOWN:
                                 selectNextItem($input);
                                 break;
                         }
