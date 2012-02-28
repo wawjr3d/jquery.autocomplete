@@ -5,7 +5,10 @@
  */
 (function($, undefined) {
 
-	var KEYUP = 38,
+	var selectedClass = "selected",
+		
+		// keys
+		KEYUP = 38,
 		KEYDOWN = 40,
 		ENTER_KEY = 13;
 		
@@ -50,6 +53,8 @@
              * whether or not to show a failure message when there are no results
              */            
             showFailure: true,
+            
+            failureMessage: "No results found.",
             
             /*
              * how to display an individual result from data item
@@ -101,9 +106,7 @@
             }
         };
         
-        if (typeof options == "string") {
-        	options = { dataSource: options };
-        }
+        if (typeof options === "string") { options = { dataSource: options }; }
         
         var settings = $.extend(defaultOptions, options);
         
@@ -127,9 +130,9 @@
        
         
         function selectItem($item, $input) {
-            var item = $item.data("rawItem");
+            var item = $item.data("autocomplete.item");
             
-            $item.addClass("selected");
+            $item.addClass(selectedClass);
             $input.val(settings.itemValue(item));
         }
         
@@ -137,14 +140,14 @@
             
             var $items = $results.find("li");
             
-            if ($items.first().hasClass("selected")) { return false; }
+            if ($items.first().hasClass(selectedClass)) { return false; }
             
-            var $currentSelectedItem = $results.find("li.selected");
+            var $currentSelectedItem = $results.find("li." + selectedClass);
             var $selectedItem;
             
             if ($currentSelectedItem.size() > 0) {
                 $selectedItem = $currentSelectedItem.prev("li");
-                $currentSelectedItem.removeClass("selected");
+                $currentSelectedItem.removeClass(selectedClass);
             } else {
                 $selectedItem = $items.first();
             }
@@ -158,14 +161,14 @@
             
             var $items = $results.find("li");
             
-            if ($items.last().hasClass("selected")) { return false; }
+            if ($items.last().hasClass(selectedClass)) { return false; }
             
-            var $currentSelectedItem = $results.find("li.selected");
+            var $currentSelectedItem = $results.find("li." + selectedClass);
             var $selectedItem;
             
             if ($currentSelectedItem.size() > 0) {
                 $selectedItem = $currentSelectedItem.next("li");
-                $currentSelectedItem.removeClass("selected");
+                $currentSelectedItem.removeClass(selectedClass);
             } else {
                 $selectedItem = $items.first();
             }
@@ -177,7 +180,7 @@
         
         function updateFailureResults() {
             if (settings.showFailure) {
-                $results[0].innerHTML = "<div class='failure'>No results found.</div>";
+                $results[0].innerHTML = "<div class='failure'>" + settings + "</div>";
             } else {
                 hideResults();
             }
@@ -185,20 +188,17 @@
         
         function updateResults(results) {
             
-            results.sort(settings.sort);
-            
-            var builder = [];
             var howmany = Math.min(settings.limit, results.length);
             
-            $results.html("");
+            $results.empty();
             
-            var $ul = $("<ul></ul>");
+            var $ul = $("<ul/>");
             
             for (var i = 0; i < howmany; i++) {
                 var item = results[i];
                 
-                var $listItem = $("<li></li>");
-                $listItem.data("rawItem", item);
+                var $listItem = $("<li/>");
+                $listItem.data("autocomplete.item", item);
                 $listItem[0].innerHTML = settings.itemDisplay(item);
                 
                 $listItem.appendTo($ul);
@@ -226,7 +226,7 @@
             }
         }
 
-        function getDataFromDataSource(query) {
+        function search(query) {
             
             var deferred = $.Deferred();
             
@@ -283,7 +283,10 @@
                 updateFailureResults();
             }
             
-            $.when(getDataFromDataSource(query)).then(function(results) {
+            $.when(search(query)).then(function(results) {
+            	
+                results.sort(settings.sort);
+            	
                 if (results && results.length) {
                     onDataSuccess(results);
                 } else {
@@ -295,10 +298,10 @@
         
         function shouldIgnoreKeyup(keyCode) {
             return keyCode == 37
-                    || keyCode == 38
+                    || keyCode == KEYUP
                     || keyCode == 39
-                    || keyCode == 40
-                    || keyCode == 13
+                    || keyCode == KEYDOWN
+                    || keyCode == ENTER_KEY
         }
         
         function shouldIgnoreKeydown(keycode) {
@@ -309,6 +312,8 @@
         return this.each(function() {
             
             var $input = $(this);
+            
+            if ($input.data("autocomplete") == true) { return; }
             
             if (this.tagName != "INPUT" || $input.prop("type") != "text") {
                 throw new Error("can only turn inputs into autocompletes");
@@ -330,6 +335,7 @@
             }
             
             $input
+            	.data("autocomplete", true)
                 .addClass("autocomplete")
                 .attr("autocomplete", "off")
                 .bind("keyup", function(e) {
