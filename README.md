@@ -13,48 +13,51 @@ What else would you want to pass?
             
 ####queryParam
 If dataSource is url, the parameter that will be the search term 
-#####Default: "q"
+**Default: "q"**
 
 ####extraParams
 Any extra parameters that you want to pass to the url dataSource
-#####Default: {}
+**Default: {}**
 
 ####minimumCharacters
 Minimum number of characters before retrieving results
-#####Default: 3
+**Default: 3**
             
 ####delay
 Time (milliseconds) to wait after user types to go get data
-#####Default: 400,
+**Default: 400**
             
 ####limit
 Number of results to display
-#####Default: 10,
+**Default: 10**
 
 ####showFailure       
 Whether or not to show a failure message when there are no results
-#####Default: true,
+**Default: true**
             
 ####failureMessage
-#####Default: "No results found.",
+**Default: "No results found."**
             
 ####itemDisplay
 How to display an individual result from data item
-#####Default:
+**Default:**
+
 	function(item) {
 		return item.value;
 	}
             
 ####itemValue
 How to calculate input's actual value from data item
-#####Default:
+**Default:**
+
 	function(item) {
 		return item.value;
 	}
          
 ####filter   
 How to run a search against an array of objects as a dataSource
-#####Default:
+**Default:**
+
 	function(item, query) {
 		return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
 	}
@@ -75,11 +78,11 @@ then you pass
 		return data.search.results
 	}
 
-#####Default: function(data) { return data; }
+**Default: function(data) { return data; }**
             
 ####sort
 How to sort results
-#####Default: function(item1, item2) { return item1.value > item2.value; }
+**Default: function(item1, item2) { return item1.value > item2.value; }**
 
 ##Dependencies
-	jQuery > v 1.7.1
+jQuery > v 1.7.1
