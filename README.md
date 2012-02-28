@@ -38,7 +38,7 @@ Number of results to display.
 
 
 ####showFailure
-Whether or not to show a failure message when there are no results.
+Whether or not to show a `failureMessage` when there are no results.
 **Default:** true
 
             
@@ -47,7 +47,7 @@ Whether or not to show a failure message when there are no results.
             
             
 ####itemDisplay
-How to display an individual result from data item.
+How to display an individual result. The signature of `itemDisplay` is `item`. `item` refers to the current result's underlying raw data. 
 **Default:**
 
 	function(item) {
@@ -56,7 +56,7 @@ How to display an individual result from data item.
 
             
 ####itemValue
-How to calculate input's actual value from data item.
+How to calculate individual result's actual value from underlying `item`. The signature of `itemValue` is `item`. `item` refers to the current result's underlying raw data.
 **Default:**
 
 	function(item) {
@@ -65,7 +65,7 @@ How to calculate input's actual value from data item.
 
          
 ####filter   
-How to run a search against an array of objects as a `dataSource`.
+How to run a search against an array of objects as a `dataSource`. The signature of `itemValue` is `item, query`. `item` refers to the current result's underlying raw data. `query` is the current text the user has input into the text field.
 **Default:**
 
 	function(item, query) {
@@ -74,7 +74,7 @@ How to run a search against an array of objects as a `dataSource`.
 
          
 ####parse   
-How to pull the results out of the data returned from a request for a url `dataSource`. 
+How to pull the results out of the `data` returned from a request for a url `dataSource`. 
 
 e.g. if the results are nested like:
 
@@ -94,12 +94,12 @@ then you pass
 
             
 ####sort
-How to sort results.
+How to sort results. `item1` and `item2` are two autocomplete results.
 **Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
 ##Dependencies
 jQuery > v 1.7.1
 
 
-##Thanks to
-Susanne for early testing and folks at TheLadders for code reviewing early version and
+##Thanks
+Susanne for early testing and folks at TheLadders for code reviewing early versions
