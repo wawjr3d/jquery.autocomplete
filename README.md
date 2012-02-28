@@ -1,11 +1,8 @@
-##jQuery autocomplete plugin##
-------------------------------
+##jQuery autocomplete plugin
 
-#Usage#
--------
+#Usage
 
-$().autocomplete(url|options);
+	$().autocomplete(url|options);
 
-#Required#
-----------
-jQuery > v 1.7.1
+#Required
+	jQuery > v 1.7.1
