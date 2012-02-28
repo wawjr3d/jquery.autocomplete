@@ -13,6 +13,7 @@ What else would you want to pass?
             
 ####queryParam
 If dataSource is url, the parameter that will be the search term 
+
 **Default: "q"**
 
 ####extraParams
