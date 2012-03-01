@@ -5,104 +5,53 @@
  */
 (function($, undefined) {
 
-	var selectedClass = "selected",
-		
-		// keys
-		KEYLEFT = 37,
-		KEYUP = 38,
-		KEYRIGHT = 39,
-		KEYDOWN = 40,
-		ENTER_KEY = 13;
-		
-    
     $.fn.autocomplete = function(options) {
 
+    	var SELECTED_CLASS = "selected",
+    		
+    		LOADING_CLASS = "loading",
+    	
+    		// keys
+    		KEYLEFT = 37,
+    		KEYUP = 38,
+    		KEYRIGHT = 39,
+    		KEYDOWN = 40,
+    		ENTER_KEY = 13;
+    	
         var defaultOptions = {
             
-            /*
-             * DataSource can be either a string url or a an array of objects.
-             * The data returned from the dataSource MUST be an array of objects.
-             * What else would you want to pass?
-             */
-            dataSource: "",
-            
-            /*
-             * If dataSource is url, the parameter that will be the search term 
-             */
+        	dataSource: "",
+
             queryParam: "q",
-            
-            /*
-             * any extra parameters that you want to pass to the url dataSource
-             */
+
             extraParams: {},
-            
-            /*
-             * minimum number of characters before retrieving results
-             */
+
             minimumCharacters: 3,
-            
-            /*
-             * time to wait after user types to go get data
-             */
+
             delay: 400,
-            
-            /*
-             * number of results to display
-             */
+
             limit: 10,
-            
-            /*
-             * whether or not to show a failure message when there are no results
-             */            
+         
             showFailure: true,
             
             failureMessage: "No results found.",
-            
-            /*
-             * how to display an individual result from data item
-             */
+
             itemDisplay: function(item) {
                 return item.value;
             },
-            
-            /*
-             * how to calculate input's actual value from data item
-             */
+
             itemValue: function(item) {
                 return item.value;
             },
-            
-            /*
-             * how to run a search against an array of objects as a dataSource
-             */
+
             filter: function(item, query) {
                 return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
             },
-            
-            /*
-             * how to pull the results out of the data returned from a request for a url dataSource
-             * e.g. if the results are nested like 
-             * 
-             * {
-             *      "search" : {
-             *          "results" : [{}...{}]
-             *      }
-             * }
-             * 
-             * then you pass
-             *   
-             * function(data) {
-             *      return data.search.results
-             * }
-             *
-             */
+
             parse: function(data) {
                 return data;
             },
-            
-            /*
-             * how to sort results
-             */
+
             sort: function(item1, item2) {
                 return item1.value > item2.value;
             }
@@ -134,45 +83,46 @@
         function selectItem($item, $input) {
             var item = $item.data("autocomplete.item");
             
-            $item.addClass(selectedClass);
+            $item.addClass(SELECTED_CLASS);
             $input.val(settings.itemValue(item));
             
-            $input.trigger("autocompete.item-selected");
+            $input.trigger("autocompete:item-selected", item);
         }
         
-        function selectPreviousItem($input) {
+        function getCurrentSelectedItem() {
+        	return $results.find("li." + SELECTED_CLASS);
+        }
+        
+        function selectPrevious($input) {
             
             var $items = $results.find("li");
             
-            if ($items.first().hasClass(selectedClass)) { return false; }
+            if ($items.first().hasClass(SELECTED_CLASS)) { return false; }
             
-            var $currentSelectedItem = $results.find("li." + selectedClass);
-            var $selectedItem;
+            var $currentSelectedItem = getCurrentSelectedItem();
             
-            if ($currentSelectedItem.size() > 0) {
-                $selectedItem = $currentSelectedItem.prev("li");
-                $currentSelectedItem.removeClass(selectedClass);
-            } else {
-                $selectedItem = $items.first();
-            }
+            if ($currentSelectedItem.size() == 0) { return false; }
+
+            var $selectedItem = $currentSelectedItem.prev("li");
+            $currentSelectedItem.removeClass(SELECTED_CLASS);
             
             selectItem($selectedItem, $input);
             
             return true;
         }
            
-        function selectNextItem($input) {
+        function selectNext($input) {
             
             var $items = $results.find("li");
             
-            if ($items.last().hasClass(selectedClass)) { return false; }
+            if ($items.last().hasClass(SELECTED_CLASS)) { return false; }
             
-            var $currentSelectedItem = $results.find("li." + selectedClass);
+            var $currentSelectedItem = getCurrentSelectedItem();
             var $selectedItem;
             
             if ($currentSelectedItem.size() > 0) {
                 $selectedItem = $currentSelectedItem.next("li");
-                $currentSelectedItem.removeClass(selectedClass);
+                $currentSelectedItem.removeClass(SELECTED_CLASS);
             } else {
                 $selectedItem = $items.first();
             }
@@ -182,7 +132,7 @@
             return true;
         }
         
-        function updateFailureResults() {
+        function showFailure() {
             if (settings.showFailure) {
                 $results[0].innerHTML = "<div class='failure'>" + settings + "</div>";
             } else {
@@ -228,7 +178,7 @@
                 })
                 .show();
                 
-                $input.trigger("autocompete.show-results");
+                $input.trigger("autocompete:show-results");
             }
         }
 
@@ -277,28 +227,19 @@
         
         function retrieveData($input, query) {
             
-            $results.data("hasData", false);
-            
-            var onDataSuccess = function(results) {
-                $results.data("hasData", true);
-                updateResults(results);
-            };
-            
-            var onDataFailure = function() {
-                $results.data("hasData", false);
-                updateFailureResults();
-            }
+            $input.addClass(LOADING_CLASS);
             
             $.when(search(query)).then(function(results) {
             	
-            	$input.trigger("autocomplete.data-retrieved");
+            	$input.removeClass(LOADING_CLASS);
+            	$input.trigger("autocomplete:data-retrieved");
             	
                 results.sort(settings.sort);
             	
                 if (results && results.length) {
-                    onDataSuccess(results);
+                	updateResults(results);
                 } else {
-                    onDataFailure();
+                	showFailure();
                 }
                 showResults($input); 
             });
@@ -385,20 +326,20 @@
                     
                     var $input = $(this);
                     
-                    if ($results.is(":visible") && $results.data("hasData")) {
+                    if ($results.is(":visible")) {
                         switch (e.keyCode) {
                             case KEYUP:
                                 if ($input.val() == lastQuery) {
                                     hideResults();
                                 }
                                 
-                                if (!selectPreviousItem($input)) {
+                                if (!selectPrevious($input)) {
                                     $input.val(lastQuery);
                                 };
                                 
                                 break;
                             case KEYDOWN:
-                                selectNextItem($input);
+                                selectNext($input);
                                 break;
                         }
                     }
