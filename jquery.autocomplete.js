@@ -16,7 +16,10 @@
     		KEYUP = 38,
     		KEYRIGHT = 39,
     		KEYDOWN = 40,
-    		ENTER_KEY = 13;
+    		ENTER_KEY = 13,
+    		
+    		// stolen from jqueryui, used to prevent race conditions
+    		autocompleteCount = 0;
     	
         var defaultOptions = {
             
@@ -134,7 +137,7 @@
         
         function showFailure() {
             if (settings.showFailure) {
-                $results[0].innerHTML = "<div class='failure'>" + settings + "</div>";
+                $results[0].innerHTML = "<div class='failure'>" + settings.failureMessage + "</div>";
             } else {
                 hideResults();
             }
@@ -199,11 +202,28 @@
                     type: "GET",
                     data: urlDataSourceParams,
                     dataType: "json",
+                    context: {
+                    	currentAutocomplete: ++autocompleteCount
+                    },
                     success: function(data) {
-                        deferred.resolve(settings.parse(data));
+                    	if (autocompleteCount == this.currentAutocomplete) {
+                            deferred.resolve(settings.parse(data));                    		
+                    	}
                     },
                     error: function() {
-                        deferred.resolve([]);
+                    	if (autocompleteCount == this.currentAutocomplete) {
+                    		deferred.resolve([]);
+                    	}
+                    },
+                    
+                    /*
+                     * im not sure if you MUST resolve or reject a deferred to make sure its
+                     * garbage collected but didnt want to take a chance, if it gets rejected
+                     * at this point it wasnt supposed to run because another query has
+                     * happened 
+                     */
+                    complete: function() {
+                    	deferred.reject();
                     }
                 });
             } else {
