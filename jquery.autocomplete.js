@@ -1,7 +1,5 @@
 /*
- * TODO: heavily refactor!
- * 
- * 
+ * TODO: keep refactoring...not as heavily as before!
  */
 (function($, undefined) {
 
@@ -18,7 +16,7 @@
     		KEYDOWN = 40,
     		ENTER_KEY = 13,
     		
-    		// stolen from jqueryui, used to prevent race conditions
+    		// stolen from jquery.ui, used to prevent race conditions
     		autocompleteCount = 0;
     	
         var defaultOptions = {
