@@ -42,4 +42,19 @@ describe("Autocomplete plugin", function() {
 		
 		expect($("#autocomplete-results").size()).toBeGreaterThan(0);
 	});
+	
+	it("should create autocomplete for any text based input", function() {
+		
+		var types = ["text", "email", "search", "url"];
+		
+		for(var i = 0, numberOfTypes = types.length; i < numberOfTypes; i++) {
+			var type = types[i];
+			
+			var $typeInput = $("<input type='" + type + "'>");
+			$typeInput.autocomplete("../demo/demo.json");
+			
+			expect($typeInput.data("autocomplete")).toBeTruthy();
+		}
+
+	});
 });

@@ -9,6 +9,8 @@
     		
     		LOADING_CLASS = "loading",
     	
+    		TEXT_BASED_INPUT_TYPES = ["text", "email", "search", "url"],
+    		
     		// keys
     		KEYLEFT = 37,
     		KEYUP = 38,
@@ -286,8 +288,8 @@
                 throw new Error("a dataSource is required");
             }
             
-            if (this.tagName != "INPUT" || $input.prop("type") != "text") {
-                throw new Error("can only turn inputs into autocompletes");
+            if (this.tagName != "INPUT" || $.inArray($input.prop("type"), TEXT_BASED_INPUT_TYPES) < 0) {
+                throw new Error("can only turn text based inputs into autocompletes");
             }
 
             var lastQuery = this.value;
