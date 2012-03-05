@@ -10,6 +10,17 @@ Include jquery, then include the autocomplete, e.g.
 then call the autocomplete on a jQuery-fied input 
 
 	$("input").autocomplete(url|options);
+	
+**Note:** Only the first element in the result of the jquery selector will be turned into an autocomplete. Chaining will be maintained, but only for that first element. For example, with the following code:
+
+	<input type="text" name="textbox1">
+	<input type="text" name="textbox2">
+	
+	<script type="text/javascript">
+		$("input").autocomplete("dummy.json").css("background", "blue");
+	</script>
+
+Only "textbox1" will become an autocomplete and have its background turned to blue.
 
 ##Options
 
