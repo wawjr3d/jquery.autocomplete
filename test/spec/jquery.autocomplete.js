@@ -8,11 +8,14 @@ describe("Autocomplete plugin", function() {
 	
 	it("should require a dataSource", function() {
 
-		expect(function() { $input.autocomplete(); }).toThrow(new Error("a dataSource is required"));
+		$input.autocomplete();
+		expect($input.data("autocomplete")).toBeFalsy();
 		
-		expect(function() { $input.autocomplete(""); }).toThrow(new Error("a dataSource is required"));
+		$input.autocomplete("");
+		expect($input.data("autocomplete")).toBeFalsy();
 		
-		expect(function() { $input.autocomplete({ nodataSource: "what i passed" }); }).toThrow(new Error("a dataSource is required"));
+		$input.autocomplete({ nodataSource: "what i passed" });
+		expect($input.data("autocomplete")).toBeFalsy();
 	});
 
 	it("should take one parameter as url", function() {
