@@ -107,6 +107,55 @@ then you pass
 How to sort results. `item1` and `item2` are two autocomplete results.
 **Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
+
+##Events
+You can subscribe to a few useful events. After an input becomes an autocomplete, you will always be able to attach handlers to the following events.
+
+####autocomplete:open
+When the results div opens.
+	
+	$("input").bind("autocomplete:open", function(e) {
+		console.log("autocomplete open");
+	});
+
+####autocomplete:close
+When the results div closes.
+
+	$("input").bind("autocomplete:close", function(e) {
+		console.log("autocomplete closed");
+	});
+
+####autocomplete:search
+When a search begins. This event passes the `query` that was input when it fires.
+
+	$("input").bind("autocomplete:search", function(e, query) {
+		console.log("autocomplete search for '" + query + "'");
+	});
+
+####autocomplete:search:complete
+When a search completes. This event passes an object containing the `results` of the search when it fires. The results can be extracted by calling `results.results`.
+
+	$("input").bind("autocomplete:search:complete", function(e, results) {
+		console.log("autocomplete returned results");
+		console.log(results.results);
+	});
+
+####autocomplete:item:highlighted
+When an item in the list of results is highlighted. This event passes the data `item` that was highlighted.
+
+	$("input").bind("autocomplete:item:highlighted", function(e, item) {
+		console.log("autocomplete highlighted an item");
+		console.log(item);
+	});
+
+####autocomplete:item:selected
+When an item in the list of results is selected. This event passes the data `item` that was highlighted.
+
+	$("input").bind("autocomplete:item:selected", function(e) {
+	
+	});
+
+
 ##Dependencies
 jQuery
 
