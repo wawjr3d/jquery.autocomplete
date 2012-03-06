@@ -2,7 +2,7 @@
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
 ##Usage
-Include jquery, then include the autocomplete, e.g.
+Include jQuery, then include the autocomplete, e.g.
 
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
@@ -11,7 +11,7 @@ then call the autocomplete on a jQuery-fied input
 
 	$("input").autocomplete(url|options);
 	
-**Note:** Only the first element in the result of the jquery selector will be turned into an autocomplete. Chaining will be maintained, but only for that first element. For example, with the following code:
+**Note:** Only the first element in the result of the jQuery selector will be turned into an autocomplete. Chaining will be maintained, but only for that first element. For example, with the following code:
 
 	<input type="text" name="textbox1">
 	<input type="text" name="textbox2">

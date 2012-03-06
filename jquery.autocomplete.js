@@ -407,6 +407,9 @@
                         }
                     }
                 })
+                .focus(function(e) {
+                	lastQuery = this.value;
+                })
                 .blur(function(e) {
                     
                     // little delay to allow click event on selected item to happen
