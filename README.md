@@ -84,7 +84,7 @@ The signature of `itemValue` is `item`. `item` refers to the current result's un
 
          
 ####filter   
-When `dataSource` is an array of objects, the `filter` function tells the autocomplete how to use your query to filter the array.
+When `dataSource` is an array of objects, the `filter` function tells the autocomplete how to use your `query` to filter the array.
 The signature of `filter` is `item, query`. `item` refers to the current result's underlying raw data.
 `query` is the current text the user has input into the text field.
 **Default:**
@@ -105,7 +105,7 @@ e.g. if the results are nested like:
 		}
 	}
 
-then you `parse` should be
+then `parse` should be
 
 	function(data) {
 		return data.search.results
