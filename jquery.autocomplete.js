@@ -354,7 +354,7 @@
             	.data("autocomplete", true)
                 .addClass("autocomplete")
                 .attr("autocomplete", "off")
-                .bind("keyup", function(e) {
+                .keyup(function(e) {
                     if (shouldIgnoreKeyup(e.keyCode)) { return; }
                     
                     if (this.value.length >= settings.minimumCharacters) {

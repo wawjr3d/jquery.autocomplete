@@ -84,8 +84,8 @@ The signature of `itemValue` is `item`. `item` refers to the current result's un
 
          
 ####filter   
-How to run a search against an array of objects as a `dataSource`.
-The signature of `itemValue` is `item, query`. `item` refers to the current result's underlying raw data.
+When `dataSource` is an array of objects, the `filter` function tells the autocomplete how to use your query to filter the array.
+The signature of `filter` is `item, query`. `item` refers to the current result's underlying raw data.
 `query` is the current text the user has input into the text field.
 **Default:**
 
@@ -95,7 +95,7 @@ The signature of `itemValue` is `item, query`. `item` refers to the current resu
 
          
 ####parse   
-How to pull the results out of the `data` returned from a request for a url `dataSource`. 
+When `dataSource` is a url, the `parse` function tells the autocomplete how to extract the results from the JSON object returned from a request to the url. 
 
 e.g. if the results are nested like:
 
@@ -105,7 +105,7 @@ e.g. if the results are nested like:
 		}
 	}
 
-then you pass
+then you `parse` should be
 
 	function(data) {
 		return data.search.results
@@ -115,7 +115,7 @@ then you pass
 
             
 ####sort
-How to sort results. `item1` and `item2` are two autocomplete results.
+The strategy for sorting the results. `item1` and `item2` are two items in the list of results.
 **Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
 
@@ -123,28 +123,28 @@ How to sort results. `item1` and `item2` are two autocomplete results.
 You can subscribe to a few useful events. After an input becomes an autocomplete, you will always be able to attach handlers to the following events.
 
 ####autocomplete:open
-When the results div opens.
+When the results element opens.
 	
 	$("input").bind("autocomplete:open", function(e) {
 		console.log("autocomplete open");
 	});
 
 ####autocomplete:close
-When the results div closes.
+When the results element closes.
 
 	$("input").bind("autocomplete:close", function(e) {
 		console.log("autocomplete closed");
 	});
 
 ####autocomplete:search
-When a search begins. This event passes the `query` that was input when it fires.
+When a search begins. When it fires, this event passes the `query` that was input.
 
 	$("input").bind("autocomplete:search", function(e, query) {
 		console.log("autocomplete search for '" + query + "'");
 	});
 
 ####autocomplete:search:complete
-When a search completes. This event passes an object containing the `results` of the search when it fires. The results can be extracted by calling `results.results`.
+When a search completes. When it fires, this event passes an object containing the `results` of the search. The results can be extracted by calling `results.results`.
 
 	$("input").bind("autocomplete:search:complete", function(e, results) {
 		console.log("autocomplete returned results");
@@ -160,7 +160,7 @@ When an item in the list of results is highlighted. This event passes the data `
 	});
 
 ####autocomplete:item:selected
-When an item in the list of results is selected. This event passes the data `item` that was highlighted.
+When an item in the list of results is selected. This event passes the data `item` that was selected.
 
 	$("input").bind("autocomplete:item:selected", function(e) {
 	
