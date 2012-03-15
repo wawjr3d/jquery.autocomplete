@@ -36,8 +36,22 @@
 	<script type="text/javascript" src="../jquery.autocomplete.js"></script>
 	<script type="text/javascript">
 
+	
+		/*************************
+		 * Using url dataSource
+		 *************************/
+	
 		$("input[type=text]").autocomplete({
-			dataSource: "demo.json"	
+			dataSource: "demo.json",
+			parse: function(data) {
+				return data.results;
+			},
+			itemValue: function(item) {
+				return item;
+			},
+			itemDisplay: function(item) {
+				return item;
+			}
 		}).bind("autocomplete:open", function(e) {
 			
 			console.log("text autocomplete open");
@@ -66,8 +80,48 @@
 		});
 		
 		
+		/*************************
+		 * Using array dataSource
+		 *************************/
+			var availableTags = {
+					"tags": [
+	         			"ActionScript",
+	         			"AppleScript",
+	         			"Asp",
+	         			"BASIC",
+	         			"C",
+	         			"C++",
+	         			"Clojure",
+	         			"COBOL",
+	         			"ColdFusion",
+	         			"Erlang",
+	         			"Fortran",
+	         			"Groovy",
+	         			"Haskell",
+	         			"Java",
+	         			"JavaScript",
+	         			"Lisp",
+	         			"Perl",
+	         			"PHP",
+	         			"Python",
+	         			"Ruby",
+	         			"Scala",
+	         			"Scheme"
+	         		]	
+			};
+		
 		$("input[type=email]").autocomplete({
-			dataSource: "demo.json"	
+			dataSource: availableTags,
+			minimumCharacters: 1,
+			parse: function(data) {
+				return data.tags;
+			},
+			itemValue: function(item) {
+				return item;
+			},
+			itemDisplay: function(item) {
+				return item;
+			}
 		}).bind("autocomplete:open", function(e) {
 			
 			console.log("email autocomplete open");

@@ -74,8 +74,8 @@
                 return item.value;
             },
 
-            filter: function(item, query) {
-                return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            filter: function(value, query) {
+                return value.toLowerCase().indexOf(query.toLowerCase()) > -1;
             },
 
             parse: function(data) {
@@ -297,12 +297,12 @@
 	            } else {
 	                var results = [];
 	                
-	                var data = settings.dataSource;
+	                var data = settings.parse(settings.dataSource);
 	                
-	                for (var i = 0; i < settings.dataSource.length; i++) {
+	                for (var i = 0; i < data.length; i++) {
 	                    var item = data[i];
 	                    
-	                    if (settings.filter(item, query)) {
+	                    if (settings.filter(settings.itemValue(item), query)) {
 	                        results.push(item);
 	                    }
 	                }

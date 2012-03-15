@@ -25,9 +25,8 @@ Only "textbox1" will become an autocomplete and have its background turned to bl
 ##Options
 
 ####dataSource
-`dataSource` can be either a string url or a an array of objects.
-The `data` returned from the dataSource MUST be an array of objects.
-What else would you want to pass?
+`dataSource` can be either a string url or a variable.
+Either the result of calling `parse` (covered below) on the `dataSource` or the `data` returned from a url MUST be an array.
             
 ####queryParam
 If `dataSource` is url, the parameter that will be the search term.
@@ -84,18 +83,19 @@ The signature of `itemValue` is `item`. `item` refers to the current result's un
 
          
 ####filter   
-When `dataSource` is an array of objects, the `filter` function tells the autocomplete how to use your `query` to filter the array.
-The signature of `filter` is `item, query`. `item` refers to the current result's underlying raw data.
+When `dataSource` is an array, the `filter` function tells the autocomplete how to use your `query` to filter the array.
+The signature of `filter` is `value, query`. `value` is the value of the current `item` as determined by the `itemValue` function.
 `query` is the current text the user has input into the text field.
 **Default:**
 
-	function(item, query) {
-		return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1;
+	function(value, query) {
+		return value.toLowerCase().indexOf(query.toLowerCase()) > -1;
 	}
 
          
 ####parse   
-When `dataSource` is a url, the `parse` function tells the autocomplete how to extract the results from the JSON object returned from a request to the url. 
+The `parse` function tells the autocomplete how to extract the results from the JSON object returned from a request to the url.
+*Note:* the `parse` function will be applied whether `dataSource` is a url or an array. 
 
 e.g. if the results are nested like:
 
