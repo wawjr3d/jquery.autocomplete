@@ -327,15 +327,18 @@
 	                if (results.length) {
 	                    results.sort(settings.sort);
 	                	loadResults(results);
+	                	
+                        showResults();
 	                } else {
 	                	loadFailureMessage();
+	                    
+	                    if (settings.showFailure) {
+	                        showResults();
+	                    } else {
+	                        hideResults();
+	                    }
 	                }
-	            
-	                if (settings.showFailure) {
-	                	showResults();
-	                } else {
-	                	hideResults();
-	                }
+
 	            });
 	        }
 	        
