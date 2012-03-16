@@ -218,7 +218,7 @@
 	            $results[0].innerHTML = "<div class='failure'>" + settings.failureMessage + "</div>";
 	        }
 	        
-	        function getPosition($element) {
+	        function getPositionType($element) {
 	        	var position = $element.css("position");
 	        	return position == "fixed" ? "fixed" : "absolute";
 	        }
@@ -230,15 +230,16 @@
 	        
 	        function showResults() {
 	            if (!$results.is(":visible") && !$input.prop("disabled")) {
-	                var offset = $input.offset();
+	                var position = $input.position();
 	                
 	                $results.css({
-	                	position: getPosition($input),
-	                    top: offset.top + $input.prop("offsetHeight"),
-	                    left: offset.left,
+	                	position: getPositionType($input),
+	                    top: position.top + $input.prop("offsetHeight"),
+	                    left: position.left,
 	                    width: $input.prop("offsetWidth"),
 	                    zIndex: getZIndex($input) + 1
 	                })
+	                .insertAfter($input)
 	                .show();
 	                
 	                $input.trigger(EVENTS.OPEN);
