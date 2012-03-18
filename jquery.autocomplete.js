@@ -330,9 +330,8 @@
 	                	
                         showResults();
 	                } else {
-	                	loadFailureMessage();
-	                    
 	                    if (settings.showFailure) {
+		                	loadFailureMessage();		                    
 	                        showResults();
 	                    } else {
 	                        hideResults();
