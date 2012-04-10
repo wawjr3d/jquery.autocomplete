@@ -1,5 +1,5 @@
 /*
- * Version: 1.0.1
+ * Version: 1.0.2
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -152,6 +152,10 @@
 	        
 	        function getHighlightedItem() {
 	        	return $results.find("li." + HIGHLIGHTED_CLASS);
+	        }
+	        
+	        function deselectHiglightedItem() {
+	            getHighlightedItem().removeClass(HIGHLIGHTED_CLASS);
 	        }
 	        
 	        function highlightPrevious() {
@@ -405,6 +409,7 @@
                                 }
                                 
                                 if (!highlightPrevious()) {
+                                    deselectHiglightedItem();
                                     $input.val(lastQuery);
                                 };
                                 

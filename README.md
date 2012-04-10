@@ -1,5 +1,5 @@
 #jQuery autocomplete plugin
-**Current version:** 1.0.1
+**Current version:** 1.0.2
 
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
