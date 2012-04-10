@@ -1,4 +1,6 @@
 /*
+ * Version: 1.0.1
+ * 
  * TODO: keep refactoring...not as heavily as before!
  */
 (function($, undefined) {
@@ -137,13 +139,15 @@
             
 	        function selectItem($item) {
 	        	if (!$item) { $item = getHighlightedItem(); }
-	        	if (!$item || !$item.length) { return; }
+	        	if (!$item || !$item.length) { return false; }
 	        	
 	            var item = $item.data("autocomplete.item");
 	
 	            $input.val(settings.itemValue(item)).trigger(EVENTS.ITEM_SELECTED, item);
 	            
 	            hideResults();
+	            
+	            return true;
 	        }
 	        
 	        function getHighlightedItem() {
@@ -385,8 +389,9 @@
                     
                     if (e.keyCode == ENTER_KEY) {
                         if ($results.is(":visible")) {
-                        	selectItem()
-                            e.preventDefault();
+                        	if (selectItem()) {
+                        	    e.preventDefault();
+                        	}
                         }
                         
                         return;
