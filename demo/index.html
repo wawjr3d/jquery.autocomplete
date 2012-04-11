@@ -2,152 +2,163 @@
 <html>
 <head>
 	<title>Demo</title>
-
+	
 	<meta charset="utf-8" />
 	
 	<style type="text/css">
-		
 		form {
-			position: absolute;
-			top: 50px;
-			left: 40px;		
+		    position: absolute;
+		    top: 50px;
+		    left: 40px;
 		}
 		
 		#autocomplete-results {
-			border: solid 1px blue;
+		    border: solid 1px blue;
 		}
 		
 		#autocomplete-results .highlighted {
-			background: blue;
+		    background: blue;
 		}
-		
 	</style>
 </head>
 <body>
 
 	<form action="" method="GET">
-		<input type="text" name="itWorked">
-		<input type="email" name="itWorked2">
-		
+		<input type="text" name="itWorked"> <input type="email"
+			name="itWorked2"> <input type="text" name="itWorked3">
+
 		<input type="submit" value="Submit">
 	</form>
 
 	<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
 	<script type="text/javascript" src="../jquery.autocomplete.js"></script>
 	<script type="text/javascript">
+        /*************************
+         * Using url dataSource
+         *************************/
 
-	
-		/*************************
-		 * Using url dataSource
-		 *************************/
-	
-		$("input[type=text]").autocomplete({
-			dataSource: "demo.json",
-			parse: function(data) {
-				return data.results;
-			},
-			itemValue: function(item) {
-				return item;
-			},
-			itemDisplay: function(item) {
-				return item;
-			}
-		}).bind("autocomplete:open", function(e) {
-			
-			console.log("text autocomplete open");
-			
-		}).bind("autocomplete:item:highlighted", function(e, item) {
-			
-			console.log("text autocomplete item highlighted");
-			console.log(item);
-			
-		}).bind("autocomplete:item:selected", function(e, item) {
-			
-			console.log("text autocomplete item selected");
-			console.log(item);
-			
-		}).bind("autocomplete:search", function(e, query) {
-			
-			console.log("text autocomplete search for '" + query + "'");
-			
-		}).bind("autocomplete:search:complete", function(e, results) {
-			
-			console.log("text autocomplete search complete");
-			console.log(results);
-			
-		}).bind("autocomplete:close", function(e) {
-			console.log("text autocomplete close");
-		});
-		
-		
-		/*************************
-		 * Using array dataSource
-		 *************************/
-			var availableTags = {
-					"tags": [
-	         			"ActionScript",
-	         			"AppleScript",
-	         			"Asp",
-	         			"BASIC",
-	         			"C",
-	         			"C++",
-	         			"Clojure",
-	         			"COBOL",
-	         			"ColdFusion",
-	         			"Erlang",
-	         			"Fortran",
-	         			"Groovy",
-	         			"Haskell",
-	         			"Java",
-	         			"JavaScript",
-	         			"Lisp",
-	         			"Perl",
-	         			"PHP",
-	         			"Python",
-	         			"Ruby",
-	         			"Scala",
-	         			"Scheme"
-	         		]	
-			};
-		
-		$("input[type=email]").autocomplete({
-			dataSource: availableTags,
-			minimumCharacters: 1,
-			parse: function(data) {
-				return data.tags;
-			},
-			itemValue: function(item) {
-				return item;
-			},
-			itemDisplay: function(item) {
-				return item;
-			}
-		}).bind("autocomplete:open", function(e) {
-			
-			console.log("email autocomplete open");
-			
-		}).bind("autocomplete:item:highlighted", function(e, item) {
-			
-			console.log("email autocomplete item highlighted");
-			console.log(item);
-			
-		}).bind("autocomplete:item:selected", function(e, item) {
-			
-			console.log("email autocomplete item selected");
-			console.log(item);
-			
-		}).bind("autocomplete:search", function(e, query) {
-			
-			console.log("email autocomplete search for '" + query + "'");
-			
-		}).bind("autocomplete:search:complete", function(e, results) {
-			
-			console.log("email autocomplete search complete");
-			console.dir(results);
-			
-		}).bind("autocomplete:close", function(e) {
-			console.log("email autocomplete close");
-		});
-	</script>
+        $("input[name=itWorked]").autocomplete({
+            dataSource: "demo.json",
+            parse: function(data) {
+                return data.results;
+            },
+            itemValue: function(item) {
+                return item;
+            },
+            itemDisplay: function(item) {
+                return item;
+            }
+        }).bind("autocomplete:open", function(e) {
+
+            console.log("text autocomplete open");
+
+        }).bind("autocomplete:item:highlighted", function(e, item) {
+
+            console.log("text autocomplete item highlighted");
+            console.log(item);
+
+        }).bind("autocomplete:item:selected", function(e, item) {
+
+            console.log("text autocomplete item selected");
+            console.log(item);
+
+        }).bind("autocomplete:search", function(e, query) {
+
+            console.log("text autocomplete search for '" + query + "'");
+
+        }).bind("autocomplete:search:complete", function(e, results) {
+
+            console.log("text autocomplete search complete");
+            console.log(results);
+
+        }).bind("autocomplete:close", function(e) {
+            console.log("text autocomplete close");
+        });
+
+        /*************************
+         * Using array dataSource
+         *************************/
+        var availableTags = {
+            "tags": ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion",
+                    "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python",
+                    "Ruby", "Scala", "Scheme"]
+        };
+
+        $("input[type=email]").autocomplete({
+            dataSource: availableTags,
+            minimumCharacters: 1,
+            parse: function(data) {
+                return data.tags;
+            },
+            itemValue: function(item) {
+                return item;
+            },
+            itemDisplay: function(item) {
+                return item;
+            }
+        }).bind("autocomplete:open", function(e) {
+
+            console.log("email autocomplete open");
+
+        }).bind("autocomplete:item:highlighted", function(e, item) {
+
+            console.log("email autocomplete item highlighted");
+            console.log(item);
+
+        }).bind("autocomplete:item:selected", function(e, item) {
+
+            console.log("email autocomplete item selected");
+            console.log(item);
+
+        }).bind("autocomplete:search", function(e, query) {
+
+            console.log("email autocomplete search for '" + query + "'");
+
+        }).bind("autocomplete:search:complete", function(e, results) {
+
+            console.log("email autocomplete search complete");
+            console.dir(results);
+
+        }).bind("autocomplete:close", function(e) {
+            console.log("email autocomplete close");
+        });
+
+        $("input[name=itWorked3]").autocomplete({
+            dataSource: "demo.json",
+            minimumCharacters: 3,
+            parse: function(data) {
+                return data.results;
+            },
+            itemValue: function(item) {
+                return item;
+            },
+            itemDisplay: function(item) {
+                return item;
+            },
+            extraOptions: [{
+                content: "Just show this!",
+                onSelect: function() {
+                    console.log("i do something different");
+                }
+            }, {
+                content: function(query) {
+                    return "Just show " + query;
+                },
+                onSelect: function() {
+                    console.log("i also do something different");
+                }
+            }]
+        }).bind("autocomplete:item:highlighted", function(e, item) {
+
+            console.log("third autocomplete item highlighted");
+            console.log(item);
+
+        }).bind("autocomplete:extra-option:highlighted", function(e, option) {
+
+            console.log("third autocomplete extra option highlighted");
+            console.log(option);
+
+        });
+    </script>
 </body>
 </html>

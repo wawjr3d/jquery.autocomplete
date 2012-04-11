@@ -1,5 +1,5 @@
 /*
- * Version: 0.1.0
+ * Version: 0.2.0
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -24,7 +24,9 @@
 	    			SEARCH: "search",
 	    			SEARCH_COMPLETE: "search:complete",
 	    			ITEM_HIGHLIGHTED: "item:highlighted",
-	    			ITEM_SELECTED: "item:selected"
+	    			ITEM_SELECTED: "item:selected",
+                    EXTRA_OPTION_HIGHLIGHTED: "extra-option:highlighted",
+                    EXTRA_OPTION_SELECTED: "extra-option:selected",
 	    		}
     			
     			for(eventId in events) {
@@ -86,7 +88,9 @@
 
             sort: function(item1, item2) {
                 return item1.value > item2.value;
-            }
+            },
+            
+            extraOptions: []
         };
         
         if (typeof options === "string") { options = { dataSource: options }; }
@@ -142,8 +146,14 @@
 	        	if (!$item || !$item.length) { return false; }
 	        	
 	            var item = $item.data("autocomplete.item");
+	            var option = $item.data("autocomplete.option");
 	
-	            $input.val(settings.itemValue(item)).trigger(EVENTS.ITEM_SELECTED, item);
+	            if (item) {
+	                $input.val(settings.itemValue(item)).trigger(EVENTS.ITEM_SELECTED, item);
+	            } else if (option) {
+	                (option.onSelect || $.noop)();
+	                $input.trigger(EVENTS.EXTRA_OPTION_SELECTED, option);
+	            }
 	            
 	            hideResults();
 	            
@@ -195,13 +205,19 @@
 	        }
 	        
 	        function highlightItem($item) {
+                var item = $item.data("autocomplete.item");
+                var option = $item.data("autocomplete.option");
+                
 	        	$item.addClass(HIGHLIGHTED_CLASS);
-	            var item = $item.data("autocomplete.item");
-	        	
-	            $input.val(settings.itemValue(item)).trigger(EVENTS.ITEM_HIGHLIGHTED, item);
+	            
+	            if (item) {
+	                $input.val(settings.itemValue(item)).trigger(EVENTS.ITEM_HIGHLIGHTED, item);
+	            } else if (option) {
+	                $input.val(lastQuery).trigger(EVENTS.EXTRA_OPTION_HIGHLIGHTED, option);
+	            }
 	        }
 	        
-	        function loadResults(results) {
+	        function loadResults(results, query) {
 	            
 	            var howmany = Math.min(settings.limit, results.length);
 	            
@@ -217,6 +233,15 @@
 	                $listItem[0].innerHTML = settings.itemDisplay(item);
 	                
 	                $listItem.appendTo($ul);
+	            }
+	            
+	            for (var i = 0; i < settings.extraOptions.length; i++) {
+	                var option = settings.extraOptions[i];
+	                
+                    var $listItem = $("<li class='extra-option'/>");
+                    $listItem.data("autocomplete.option", option);
+                    $listItem[0].innerHTML = typeof option.content == "function" ? option.content(query) : option.content;
+                    $listItem.appendTo($ul);
 	            }
 
 	            $ul.delegate("li", "click", function(e) { selectItem($(this)); }).appendTo($results);
@@ -334,7 +359,7 @@
 	
 	                if (results.length) {
 	                    results.sort(settings.sort);
-	                	loadResults(results);
+	                	loadResults(results, query);
 	                	
                         showResults();
 	                } else {
@@ -404,11 +429,10 @@
                     if ($results.is(":visible")) {
                         switch (e.keyCode) {
                             case KEYUP:
-                                if ($input.val() == lastQuery) {
-                                    hideResults();
-                                }
-                                
                                 if (!highlightPrevious()) {
+                                    if ($input.val() == lastQuery) {
+                                        hideResults();
+                                    }
                                     deselectHiglightedItem();
                                     $input.val(lastQuery);
                                 };

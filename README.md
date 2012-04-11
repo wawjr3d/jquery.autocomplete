@@ -1,5 +1,5 @@
 #jQuery autocomplete plugin
-**Current version:** 0.1.0
+**Current version:** 0.2.0
 
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
@@ -121,6 +121,29 @@ The strategy for sorting the results. `item1` and `item2` are two items in the l
 **Default:** `function(item1, item2) { return item1.value > item2.value; }`
 
 
+####extraOptions
+An array of extra options to appear after the list of results. Each `option` should be an object with a `content` field,
+which will be displayed, and an optional `onSelect` function to call when the item is selected. `content` may be a simple
+string or an HTML string or a function that takes a parameter `query` - what the user last typed in. Here are 3 
+examples of `content` objects that will work:
+
+  {
+    content: "This will work",
+    onSelect: function() { doSomething(); }
+  },
+  
+  {
+    content: "<div class='working'>This will work too</div>",
+    onSelect: function() { doSomethingElse(); }
+  },
+  
+  {
+    content: function(query) { return "This will work and display the " + query; },
+    onSelect: function() { doSomethingElser(); }
+  }
+
+**Default:** []
+
 ##Events
 You can subscribe to a few useful events. After an input becomes an autocomplete, you will always be able to attach handlers to the following events.
 
@@ -164,9 +187,26 @@ When an item in the list of results is highlighted. This event passes the data `
 ####autocomplete:item:selected
 When an item in the list of results is selected. This event passes the data `item` that was selected.
 
-	$("input").bind("autocomplete:item:selected", function(e) {
-	
+	$("input").bind("autocomplete:item:selected", function(e, item) {
+    console.log("autocomplete selected an item");
+    console.log(item);
 	});
+
+####autocomplete:extra-option:selected
+When an extra option is highlighted. This event passes the data `option` that was highlighted.
+
+  $("input").bind("autocomplete:item:highlighted", function(e, option) {
+    console.log("autocomplete highlighted an option");
+    console.log(option);
+  });
+
+####autocomplete:extra-option:selected
+When an extra option is selected. This event passes the data `option` that was selected.
+
+  $("input").bind("autocomplete:item:selected", function(e, option) {
+    console.log("autocomplete selected an option");
+    console.log(option);
+  });
 
 
 ##Dependencies
