@@ -195,7 +195,7 @@ When an item in the list of results is selected. This event passes the data `ite
 ####autocomplete:extra-option:selected
 When an extra option is highlighted. This event passes the data `option` that was highlighted.
 
-	$("input").bind("autocomplete:item:highlighted", function(e, option) {
+	$("input").bind("autocomplete:extra-option:highlighted", function(e, option) {
 		console.log("autocomplete highlighted an option");
 		console.log(option);
 	});
@@ -203,7 +203,7 @@ When an extra option is highlighted. This event passes the data `option` that wa
 ####autocomplete:extra-option:selected
 When an extra option is selected. This event passes the data `option` that was selected.
 
-	$("input").bind("autocomplete:item:selected", function(e, option) {
+	$("input").bind("autocomplete:extra-option:selected", function(e, option) {
 		console.log("autocomplete selected an option");
 		console.log(option);
 	});
