@@ -142,7 +142,7 @@ examples of `content` objects that will work:
 		onSelect: function() { doSomethingElser(); }
 	}
 
-**Default:** []
+**Default:** `[]`
 
 ##Events
 You can subscribe to a few useful events. After an input becomes an autocomplete, you will always be able to attach handlers to the following events.
