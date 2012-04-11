@@ -127,20 +127,20 @@ which will be displayed, and an optional `onSelect` function to call when the it
 string or an HTML string or a function that takes a parameter `query` - what the user last typed in. Here are 3 
 examples of `content` objects that will work:
 
-  {
-    content: "This will work",
-    onSelect: function() { doSomething(); }
-  },
+	{
+		content: "This will work",
+		onSelect: function() { doSomething(); }
+	},
   
-  {
-    content: "<div class='working'>This will work too</div>",
-    onSelect: function() { doSomethingElse(); }
-  },
+	{
+		content: "<div class='working'>This will work too</div>",
+		onSelect: function() { doSomethingElse(); }
+	},
   
-  {
-    content: function(query) { return "This will work and display the " + query; },
-    onSelect: function() { doSomethingElser(); }
-  }
+	{
+		content: function(query) { return "This will work and display the " + query; },
+		onSelect: function() { doSomethingElser(); }
+	}
 
 **Default:** []
 
@@ -188,25 +188,25 @@ When an item in the list of results is highlighted. This event passes the data `
 When an item in the list of results is selected. This event passes the data `item` that was selected.
 
 	$("input").bind("autocomplete:item:selected", function(e, item) {
-    console.log("autocomplete selected an item");
-    console.log(item);
+		console.log("autocomplete selected an item");
+		console.log(item);
 	});
 
 ####autocomplete:extra-option:selected
 When an extra option is highlighted. This event passes the data `option` that was highlighted.
 
-  $("input").bind("autocomplete:item:highlighted", function(e, option) {
-    console.log("autocomplete highlighted an option");
-    console.log(option);
-  });
+	$("input").bind("autocomplete:item:highlighted", function(e, option) {
+		console.log("autocomplete highlighted an option");
+		console.log(option);
+	});
 
 ####autocomplete:extra-option:selected
 When an extra option is selected. This event passes the data `option` that was selected.
 
-  $("input").bind("autocomplete:item:selected", function(e, option) {
-    console.log("autocomplete selected an option");
-    console.log(option);
-  });
+	$("input").bind("autocomplete:item:selected", function(e, option) {
+		console.log("autocomplete selected an option");
+		console.log(option);
+	});
 
 
 ##Dependencies
