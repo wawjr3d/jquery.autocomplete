@@ -1,5 +1,5 @@
 /*
- * Version: 0.2.0
+ * Version: 0.2.1
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -420,7 +420,9 @@
                         if ($results.is(":visible")) {
                         	if (selectItem()) {
                         	    e.preventDefault();
-                        	}
+                            } else {
+                                hideResults();
+                            }
                         }
                         
                         return;
