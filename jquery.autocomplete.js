@@ -357,7 +357,7 @@
 	            	$input.removeClass(LOADING_CLASS);
 	            	$input.trigger(EVENTS.SEARCH_COMPLETE, {"results": results});
 	
-	                if (results.length) {
+	                if (results.length || settings.extraOptions.length) {
 	                    results.sort(settings.sort);
 	                	loadResults(results, query);
 	                	

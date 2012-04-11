@@ -1,5 +1,5 @@
 #jQuery autocomplete plugin
-**Current version:** 0.2.1
+**Current version:** 0.3.0
 
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
@@ -142,6 +142,7 @@ examples of `content` objects that will work:
 		onSelect: function() { doSomethingElser(); }
 	}
 
+**Note:** If an autocomplete has extra options, the autocomplete results will appear whether there are results or not.
 **Default:** `[]`
 
 ##Events
