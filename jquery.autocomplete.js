@@ -119,6 +119,7 @@
 
             var $input = $(this);
             
+            // Reasons to do nothing
             if ($input.data("autocomplete") == true) { return; }
             
             if (typeof settings.dataSource == "undefined" || !settings.dataSource) {
@@ -131,10 +132,12 @@
             	return;
             }
 
+            // Instance variables
             var lastQuery = this.value;
             var hasFocus = false;
             var showResultsTimeout = null;
             
+            // Instance methods
             function resetAutocomplete() {
                 clearTimeout(showResultsTimeout);
                 showResultsTimeout = null;
@@ -388,6 +391,7 @@
 	            return !shouldIgnoreKeyup(keycode);
 	        }
 
+	        // Spaghetti
             $input
             	.data("autocomplete", true)
                 .addClass("autocomplete")
@@ -400,14 +404,12 @@
                             clearTimeout(showResultsTimeout);
                             showResultsTimeout = null;
                             
-                            showResultsTimeout = setTimeout((function(input) {
-                                return function() {
-                                    
-                                    retrieveData(input.value);
-                                    lastQuery = input.value;
-                
-                                };
-                            })(this), settings.delay);
+                            showResultsTimeout = setTimeout($.proxy(function() {	
+                            	var value = this.value;
+                            	
+                            	retrieveData(value);
+                            	lastQuery = value;
+                            }, this), settings.delay);
                         }
                     } else {
                     	resetAutocomplete();
