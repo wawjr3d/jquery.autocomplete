@@ -1,5 +1,5 @@
 /*
- * Version: 0.3.1
+ * Version: 0.3.2
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -241,10 +241,13 @@
 	            
 	            for (var i = 0; i < settings.extraOptions.length; i++) {
 	                var option = settings.extraOptions[i];
+	                var content = typeof option.content == "function" ? option.content(query) : option.content;
+	                
+	                if (!content) { continue; }
 	                
                     var $listItem = $("<li class='extra-option'/>");
                     $listItem.data("autocomplete.option", option);
-                    $listItem[0].innerHTML = typeof option.content == "function" ? option.content(query) : option.content;
+                    $listItem[0].innerHTML = content;
                     $listItem.appendTo($ul);
 	            }
 
@@ -380,11 +383,8 @@
 	        }
 	        
 	        function shouldIgnoreKeyup(keyCode) {
-	            return keyCode == KEYLEFT
-	                    || keyCode == KEYUP
-	                    || keyCode == KEYRIGHT
-	                    || keyCode == KEYDOWN
-	                    || keyCode == ENTER_KEY
+	            return keyCode == KEYLEFT || keyCode == KEYUP || keyCode == KEYRIGHT
+	            		|| keyCode == KEYDOWN || keyCode == ENTER_KEY;
 	        }
 	        
 	        function shouldIgnoreKeydown(keycode) {
