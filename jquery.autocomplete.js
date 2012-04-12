@@ -1,5 +1,5 @@
 /*
- * Version: 0.2.1
+ * Version: 0.3.1
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -132,6 +132,7 @@
             }
 
             var lastQuery = this.value;
+            var hasFocus = false;
             var showResultsTimeout = null;
             
             function resetAutocomplete() {
@@ -353,6 +354,7 @@
 	            $input.trigger(EVENTS.SEARCH, query);
 	            
 	            $.when(search(query)).then(function(results) {
+	            	if (!hasFocus) { return; }
 	            	
 	            	$input.removeClass(LOADING_CLASS);
 	            	$input.trigger(EVENTS.SEARCH_COMPLETE, {"results": results});
@@ -448,9 +450,10 @@
                 })
                 .focus(function(e) {
                 	lastQuery = this.value;
+                	hasFocus = true;
                 })
                 .blur(function(e) {
-                    
+                	hasFocus = false;
                     // little delay to allow click event on selected item to happen
                     setTimeout(function() {
                     	resetAutocomplete();

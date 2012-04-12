@@ -24,8 +24,10 @@
 <body>
 
 	<form action="" method="GET">
-		<input type="text" name="itWorked"> <input type="email"
-			name="itWorked2"> <input type="text" name="itWorked3">
+		<input type="text" name="itWorked">
+		<input type="email" name="itWorked2">
+		<input type="text" name="itWorked3">
+		<input type="text" name="testDelayed">
 
 		<input type="submit" value="Submit">
 	</form>
@@ -159,6 +161,19 @@
             console.log(option);
 
         });
+        
+        $("input[name=testDelayed]").autocomplete({
+            dataSource: "demo.php",
+            parse: function(data) {
+                return data.results;
+            },
+            itemValue: function(item) {
+                return item;
+            },
+            itemDisplay: function(item) {
+                return item;
+            }
+        })
     </script>
 </body>
 </html>
