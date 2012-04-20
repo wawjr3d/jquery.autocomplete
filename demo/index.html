@@ -12,6 +12,10 @@
 		    left: 40px;
 		}
 		
+		form.second {
+		    top: 150px;
+		}	
+		
 		#autocomplete-results {
 		    border: solid 1px blue;
 		}
@@ -28,6 +32,12 @@
 		<input type="email" name="itWorked2">
 		<input type="text" name="itWorked3">
 		<input type="text" name="testDelayed">
+
+		<input type="submit" value="Submit">
+	</form>
+	
+	<form action="" class="second" method="GET">
+		<input type="text" name="testing">
 
 		<input type="submit" value="Submit">
 	</form>
@@ -173,7 +183,28 @@
             itemDisplay: function(item) {
                 return item;
             }
-        })
+        });
+        
+        $("form.second").submit(function(e) {
+        	e.preventDefault();
+        	
+        	console.log("second submitted");
+        	$("input[name=testing]").val("test");
+        });
+        
+        $("input[name=testing]").autocomplete({
+            dataSource: "demo.php",
+            parse: function(data) {
+                return data.results;
+            },
+            itemValue: function(item) {
+                return item;
+            },
+            itemDisplay: function(item) {
+                return item;
+            }
+        });
+        
     </script>
 </body>
 </html>

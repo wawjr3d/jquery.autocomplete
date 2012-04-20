@@ -1,5 +1,5 @@
 /*
- * Version: 0.3.2
+ * Version: 0.3.3
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -143,6 +143,7 @@
                 showResultsTimeout = null;
                 hideResults(); 
                 lastQuery = "";
+                hasFocus = false;
             }
             
 	        function selectItem($item) {
@@ -401,6 +402,7 @@
                     
                     if (this.value.length >= settings.minimumCharacters) {
                         if (this.value != lastQuery) {
+                        	hasFocus = true;
                             clearTimeout(showResultsTimeout);
                             showResultsTimeout = null;
                             
@@ -425,8 +427,10 @@
                         	if (selectItem()) {
                         	    e.preventDefault();
                             } else {
-                                hideResults();
+                            	resetAutocomplete();
                             }
+                        } else {
+                        	resetAutocomplete();
                         }
                         
                         return;
@@ -452,7 +456,6 @@
                 })
                 .focus(function(e) {
                 	lastQuery = this.value;
-                	hasFocus = true;
                 })
                 .blur(function(e) {
                 	hasFocus = false;
