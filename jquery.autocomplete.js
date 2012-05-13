@@ -1,11 +1,12 @@
 /*
- * Version: 0.3.3
+ * Version: 0.3.4
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
-(function($, undefined) {
-	
-	var global = this;
+
+"use strict";
+(function(global, $, undefined) {
+
 	var console = typeof global.console != "undefined" ? global.console : {
 		log: $.noop,
 		error: $.noop
@@ -29,7 +30,7 @@
                     EXTRA_OPTION_SELECTED: "extra-option:selected",
 	    		}
     			
-    			for(eventId in events) {
+    			for(var eventId in events) {
     				events[eventId] = AUTOCOMPLETE + ":" + events[eventId];
     			}
     			
@@ -467,4 +468,4 @@
         });
     };
     
-})(jQuery);
+})(this, jQuery);
