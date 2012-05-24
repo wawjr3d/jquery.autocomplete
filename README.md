@@ -1,5 +1,5 @@
 #jQuery autocomplete plugin
-**Current version:** 0.3.4
+**Current version:** 0.4.0
 
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
@@ -44,6 +44,19 @@ Any extra parameters that you want to pass to the url `dataSource`.
 Minimum number of characters before retrieving results.
 **Default:** 3
           
+          
+####resultsDestination
+A selector/element/jQuery object that represents an element on the page. The autocomplete will only
+place the results in the first matched element for selectors or jQuery objects. **Note:** The 
+results element will not be hidden when the autocomplete loses focus.
+**Default:** `null`
+
+
+####doInitialRetrieve
+Run a search when autocomplete is initialized. The search will run with the current `value` of the
+input.
+**Default:** `false`
+            
             
 ####delay
 Time (milliseconds) to wait after user types to go get data.

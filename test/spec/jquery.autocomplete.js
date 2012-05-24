@@ -1,9 +1,51 @@
+"use strict";
+
 describe("Autocomplete plugin", function() {
 	
-	var $input = $("<input>");
+	var $input = $("<input>"),
+		url = "some.json",
+		mockajaxId;
+	
+	beforeEach(function() {
+		mockajaxId = $.mockjax({
+			url: url,
+			type: "GET",
+			contentType: "application/json",
+			responseText: {
+				"results": [
+						"ActionScript",
+						"AppleScript",
+						"Asp",
+						"BASIC",
+						"C",
+						"C++",
+						"Clojure",
+						"COBOL",
+						"ColdFusion",
+						"Erlang",
+						"Fortran",
+						"Groovy",
+						"Haskell",
+						"Java",
+						"JavaScript",
+						"Lisp",
+						"Perl",
+						"PHP",
+						"Python",
+						"Ruby",
+						"Scala",
+						"Scheme"
+				]
+			}
+		});
+	});
+	
+	afterEach(function() {
+		$.mockjaxClear();
+	});
 	
 	function typicalBeforeEach() {
-		$input.autocomplete("../demo/demo.json");
+		$input.autocomplete(url);
 	}
 	
 	it("should require a dataSource", function() {
@@ -28,7 +70,7 @@ describe("Autocomplete plugin", function() {
 	it("should take options with url as dataSource", function() {
 
 		$input.autocomplete({
-			dataSource: "../demo/demo.json"
+			dataSource: url
 		});
 		
 		expect($input.data("autocomplete")).toBeTruthy();
@@ -54,7 +96,7 @@ describe("Autocomplete plugin", function() {
 			var type = types[i];
 			
 			var $typeInput = $("<input type='" + type + "'>");
-			$typeInput.autocomplete("../demo/demo.json");
+			$typeInput.autocomplete(url);
 			
 			expect($typeInput.data("autocomplete")).toBeTruthy();
 		}

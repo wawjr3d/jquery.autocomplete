@@ -1,5 +1,5 @@
 /*
- * Version: 0.3.4
+ * Version: 0.4.0
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
@@ -62,6 +62,10 @@
             extraParams: {},
 
             minimumCharacters: 3,
+            
+            resultsDestination: null,
+            
+            doInitialRetrieve: false,
 
             delay: 400,
 
@@ -99,7 +103,7 @@
         var settings = $.extend(defaultOptions, options);
         
         var isDataSourceUrl = typeof settings.dataSource == "string"; // hopefully this is a url
-         
+        var hasResultsDestination = settings.resultsDestination != null;
         
         /*
          * There will only be one result div because
@@ -108,7 +112,7 @@
          * a specific use case for it, it's probably better to just
          * keep the added markup minimal
          */
-        var $results = $("#autocomplete-results");
+        var $results = hasResultsDestination ? $(settings.resultsDestination).first() : $("#autocomplete-results");
         
         if ($results.size() == 0) {
             $results = $("<div id='autocomplete-results'></div>").css("display", "none");
@@ -289,7 +293,7 @@
 	        }
 	        
 	        function hideResults() {
-	            if ($results.is(":visible")) {
+	            if (!hasResultsDestination && $results.is(":visible")) {
 	                $results.hide();
 	                
 	                $input.trigger(EVENTS.CLOSE);
@@ -465,6 +469,12 @@
                     	resetAutocomplete();
                     }, 200);
                 });
+            
+	        
+	        if (settings.doInitialRetrieve) {
+	        	hasFocus = true;
+	        	retrieveData($input.val());
+	        }
         });
     };
     
