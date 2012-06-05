@@ -1,11 +1,10 @@
 /*
- * Version: 0.4.0
+ * Version: 0.5.0
  * 
  * TODO: keep refactoring...not as heavily as before!
  */
-
-"use strict";
 (function(global, $, undefined) {
+    "use strict";
 
 	var console = typeof global.console != "undefined" ? global.console : {
 		log: $.noop,
