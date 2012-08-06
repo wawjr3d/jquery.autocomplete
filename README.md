@@ -1,5 +1,5 @@
 #jQuery autocomplete plugin
-**Current version:** 0.5.1
+**Current version:** 0.5.2
 
 I wanted to use an autocomplete but did not want to be restricted to using jquery UI's version. 
 
@@ -228,4 +228,4 @@ jQuery
 
 
 ##Thanks
-Susanne for early testing and folks at TheLadders for code reviewing early versions
+Susanne for early testing and folks at [TheLadders.com](http://www.theladders.com) for code reviewing early versions

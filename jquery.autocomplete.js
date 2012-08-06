@@ -1,7 +1,5 @@
 /*
- * Version: 0.5.1
- * 
- * TODO: keep refactoring...not as heavily as before!
+ * Version: 0.5.2
  */
 (function(global, $, undefined) {
     "use strict";
@@ -11,50 +9,44 @@
         error: $.noop
     };
 
-    $.fn.autocomplete = function(options) {
-        
-        if (!this.length) { return this; }
+    var AUTOCOMPLETE = "autocomplete",
 
-        var AUTOCOMPLETE = "autocomplete",
-        
-            EVENTS = (function() {
-                var events = {
-                    OPEN: "open",
-                    CLOSE: "close",
-                    SEARCH: "search",
-                    SEARCH_COMPLETE: "search:complete",
-                    ITEM_HIGHLIGHTED: "item:highlighted",
-                    ITEM_SELECTED: "item:selected",
-                    EXTRA_OPTION_HIGHLIGHTED: "extra-option:highlighted",
-                    EXTRA_OPTION_SELECTED: "extra-option:selected"
-                };
-                
-                for(var eventId in events) {
-                    if (events.hasOwnProperty(eventId)) {
-                        events[eventId] = AUTOCOMPLETE + ":" + events[eventId];    
-                    }
+        EVENTS = (function() {
+            var events = {
+                OPEN: "open",
+                CLOSE: "close",
+                SEARCH: "search",
+                SEARCH_COMPLETE: "search:complete",
+                ITEM_HIGHLIGHTED: "item:highlighted",
+                ITEM_SELECTED: "item:selected",
+                EXTRA_OPTION_HIGHLIGHTED: "extra-option:highlighted",
+                EXTRA_OPTION_SELECTED: "extra-option:selected"
+            };
+            
+            for(var eventId in events) {
+                if (events.hasOwnProperty(eventId)) {
+                    events[eventId] = AUTOCOMPLETE + ":" + events[eventId];    
                 }
-                
-                return events; 
-            })(),
+            }
             
-            HIGHLIGHTED_CLASS = "highlighted",
-            LOADING_CLASS = "loading",
+            return events; 
+        })(),
         
-            TEXT_BASED_INPUT_TYPES = ["text", "email", "search", "url"],
-
-            
-            // keys
-            KEYLEFT = 37,
-            KEYUP = 38,
-            KEYRIGHT = 39,
-            KEYDOWN = 40,
-            ENTER_KEY = 13,
-            
-            // stolen from jquery.ui, used to prevent race conditions
-            autocompleteCount = 0;
+        HIGHLIGHTED_CLASS = "highlighted",
+        LOADING_CLASS = "loading",
+    
+        TEXT_BASED_INPUT_TYPES = ["text", "email", "search", "url"],
+    
         
-        var defaultOptions = {
+        // keys
+        KEYLEFT = 37,
+        KEYUP = 38,
+        KEYRIGHT = 39,
+        KEYDOWN = 40,
+        ENTER_KEY = 13,
+        
+        
+        DEFAULT_OPTIONS = {
             
             dataSource: "",
 
@@ -98,10 +90,17 @@
             
             extraOptions: []
         };
+    
+    $.fn.autocomplete = function(options) {
+        
+        if (!this.length) { return this; }
+    
+        // stolen from jquery.ui, used to prevent race conditions
+        var autocompleteCount = 0;
         
         if (typeof options === "string") { options = { dataSource: options }; }
         
-        var settings = $.extend(defaultOptions, options);
+        var settings = $.extend({}, DEFAULT_OPTIONS, options);
         
         var isDataSourceUrl = typeof settings.dataSource == "string"; // hopefully this is a url
         var hasResultsDestination = settings.resultsDestination !== null;
