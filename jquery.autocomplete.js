@@ -1,5 +1,5 @@
 /*
- * Version: 0.5.2
+ * Version: 0.5.3
  */
 (function(global, $, undefined) {
     "use strict";
@@ -274,13 +274,18 @@
                 return zIndex == "auto" ? 0 : zIndex;
             }
             
+            function getMarginTop($element) {
+                var marginTop = $element.css("marginTop");
+                return marginTop == "auto" ? 0 : parseFloat($element.css("marginTop"));
+            }
+            
             function showResults() {
                 if (!$results.is(":visible") && !$input.prop("disabled")) {
                     var position = $input.position();
                     
                     $results.css({
                         position: getPositionType($input),
-                        top: position.top + $input.prop("offsetHeight"),
+                        top: position.top + $input.prop("offsetHeight") + getMarginTop($input),
                         left: position.left,
                         width: $input.prop("offsetWidth"),
                         zIndex: getZIndex($input) + 1
@@ -371,7 +376,7 @@
                     $input.removeClass(LOADING_CLASS);
                     $input.trigger(EVENTS.SEARCH_COMPLETE, {"results": results});
     
-                    if (results.length || settings.extraOptions.length) {
+                    if ((results && results.length) || settings.extraOptions.length) {
                         results.sort(settings.sort);
                         loadResults(results, query);
                         
