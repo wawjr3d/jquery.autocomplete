@@ -28,28 +28,71 @@
 <body>
 
 	<form action="" method="GET">
-		<input type="text" name="itWorked">
-		<input type="email" name="itWorked2">
-		<input type="text" name="itWorked3">
-		<input type="text" name="testDelayed">
+		<input type="text" name="urlDatasource" placeholder="url datasource">
+		<input type="email" name="arrayDatasource" placeholder="array datasource">
+		<input type="text" name="withExtraOptions" placeholder="w/ extra options">
+		<input type="text" name="demoDelayed" placeholder="demo delayed server response">
 
 		<input type="submit" value="Submit">
 	</form>
 	
 	<form action="" class="second" method="GET">
-		<input type="text" name="testing">
+		<input type="text" name="confirmSecondEnterPreserved" placeholder="confirm second enter preserved">
 
 		<input type="submit" value="Submit">
 	</form>
 
 	<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="../lib/jquery.mockjax.js"></script>
 	<script type="text/javascript" src="../jquery.autocomplete.js"></script>
 	<script type="text/javascript">
+	   var demoJSON = {
+	       "results": [
+               "ActionScript",
+               "AppleScript",
+               "Asp",
+               "BASIC",
+               "C",
+               "C++",
+               "Clojure",
+               "COBOL",
+               "ColdFusion",
+               "Erlang",
+               "Fortran",
+               "Groovy",
+               "Haskell",
+               "Java",
+               "JavaScript",
+               "Lisp",
+               "Perl",
+               "PHP",
+               "Python",
+               "Ruby",
+               "Scala",
+               "Scheme"
+           ]
+       };
+	    
+      var demoDelayedAjax = $.mockjax({
+          url: "demo.json",
+          type: "GET",
+          contentType: "application/json",
+          responseText: demoJSON
+      });
+      
+      var demoDelayedAjax = $.mockjax({
+          url: "demoDelayed",
+          type: "GET",
+          contentType: "application/json",
+          responseText: demoJSON,
+          responseTime: 3000
+      });
+	
         /*************************
          * Using url dataSource
          *************************/
 
-        $("input[name=itWorked]").autocomplete({
+        $("input[name=urlDatasource]").autocomplete({
             dataSource: "demo.json",
             parse: function(data) {
                 return data.results;
@@ -91,9 +134,7 @@
          * Using array dataSource
          *************************/
         var availableTags = {
-            "tags": ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion",
-                    "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python",
-                    "Ruby", "Scala", "Scheme"]
+            "tags": demoJSON.results
         };
 
         $("input[type=email]").autocomplete({
@@ -135,7 +176,11 @@
             console.log("email autocomplete close");
         });
 
-        $("input[name=itWorked3]").autocomplete({
+        /*********************
+         * With extra options
+         *********************/
+        
+        $("input[name=withExtraOptions]").autocomplete({
             dataSource: "demo.json",
             minimumCharacters: 3,
             parse: function(data) {
@@ -172,8 +217,8 @@
 
         });
         
-        $("input[name=testDelayed]").autocomplete({
-            dataSource: "demo.php",
+        $("input[name=demoDelayed]").autocomplete({
+            dataSource: "demoDelayed",
             parse: function(data) {
                 return data.results;
             },
@@ -189,11 +234,11 @@
         	e.preventDefault();
         	
         	console.log("second submitted");
-        	$("input[name=testing]").val("test");
+        	$("input[name=confirmSecondEnterPreserved]").val("test");
         });
         
-        $("input[name=testing]").autocomplete({
-            dataSource: "demo.php",
+        $("input[name=confirmSecondEnterPreserved]").autocomplete({
+            dataSource: "demo.json",
             parse: function(data) {
                 return data.results;
             },
