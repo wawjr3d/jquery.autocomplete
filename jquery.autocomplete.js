@@ -4,7 +4,7 @@
 (function(global, $, undefined) {
     "use strict";
 
-    var console = typeof global.console != "undefined" ? global.console : {
+    var console = typeof global.console !== "undefined" ? global.console : {
         log: $.noop,
         error: $.noop
     };
@@ -102,7 +102,7 @@
         
         var settings = $.extend({}, DEFAULT_OPTIONS, options);
         
-        var isDataSourceUrl = typeof settings.dataSource == "string"; // hopefully this is a url
+        var isDataSourceUrl = typeof settings.dataSource === "string"; // hopefully this is a url
         var hasResultsDestination = settings.resultsDestination !== null;
         
         /*
@@ -127,12 +127,12 @@
             // Reasons to do nothing
             if ($input.data("autocomplete") === true) { return; }
             
-            if (typeof settings.dataSource == "undefined" || !settings.dataSource) {
+            if (typeof settings.dataSource === "undefined" || !settings.dataSource) {
                 console.error("a dataSource is required");
                 return;
             }
             
-            if (this.tagName != "INPUT" || $.inArray($input.prop("type"), TEXT_BASED_INPUT_TYPES) < 0) {
+            if (this.tagName !== "INPUT" || $.inArray($input.prop("type"), TEXT_BASED_INPUT_TYPES) < 0) {
                 console.error("can only turn text based inputs into autocompletes");
                 return;
             }
@@ -247,7 +247,7 @@
                 
                 for (i = 0; i < settings.extraOptions.length; i++) {
                     var option = settings.extraOptions[i];
-                    var content = typeof option.content == "function" ? option.content(query) : option.content;
+                    var content = typeof option.content === "function" ? option.content(query) : option.content;
                     
                     if (!content) { continue; }
                     
@@ -257,7 +257,7 @@
                     $extraListItem.appendTo($ul);
                 }
 
-                $ul.delegate("li", "click", function(e) { selectItem($(this)); }).appendTo($results);
+                $ul.delegate("li", "click", function() { selectItem($(this)); }).appendTo($results);
             }
             
             function loadFailureMessage() {
@@ -266,12 +266,12 @@
             
             function getPositionType($element) {
                 var position = $element.css("position");
-                return position == "fixed" ? "fixed" : "absolute";
+                return position === "fixed" ? "fixed" : "absolute";
             }
             
             function getZIndex($element) {
                 var zIndex = $element.css("zIndex");
-                return zIndex == "auto" ? 0 : zIndex;
+                return zIndex === "auto" ? 0 : zIndex;
             }
             
             function showResults() {
@@ -389,7 +389,7 @@
             }
             
             function shouldIgnoreKeyup(keyCode) {
-                return keyCode == KEYLEFT || keyCode == KEYUP || keyCode == KEYRIGHT || keyCode == KEYDOWN || keyCode == ENTER_KEY;
+                return keyCode === KEYLEFT || keyCode === KEYUP || keyCode === KEYRIGHT || keyCode === KEYDOWN || keyCode === ENTER_KEY;
             }
             
             function shouldIgnoreKeydown(keycode) {
@@ -405,7 +405,7 @@
                     if (shouldIgnoreKeyup(e.keyCode)) { return; }
                     
                     if (this.value.length >= settings.minimumCharacters) {
-                        if (this.value != lastQuery) {
+                        if (this.value !== lastQuery) {
                             hasFocus = true;
                             clearTimeout(showResultsTimeout);
                             showResultsTimeout = null;
@@ -426,7 +426,7 @@
                     
                     var $input = $(this);
                     
-                    if (e.keyCode == ENTER_KEY) {
+                    if (e.keyCode === ENTER_KEY) {
                         if ($results.is(":visible")) {
                             if (selectItem()) {
                                 e.preventDefault();
@@ -444,7 +444,7 @@
                         switch (e.keyCode) {
                             case KEYUP:
                                 if (!highlightPrevious()) {
-                                    if ($input.val() == lastQuery) {
+                                    if ($input.val() === lastQuery) {
                                         hideResults();
                                     }
                                     deselectHiglightedItem();
@@ -458,10 +458,10 @@
                         }
                     }
                 })
-                .focus(function(e) {
+                .focus(function() {
                     lastQuery = this.value;
                 })
-                .blur(function(e) {
+                .blur(function() {
                     hasFocus = false;
                     // little delay to allow click event on selected item to happen
                     setTimeout(function() {
