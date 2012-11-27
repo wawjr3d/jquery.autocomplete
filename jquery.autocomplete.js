@@ -1,5 +1,7 @@
 /*
  * Version: 0.5.3
+ * 
+ * For full documentation go to https://github.com/wawjr3d/jquery.autocomplete
  */
 (function(global, $, undefined) {
     "use strict";
