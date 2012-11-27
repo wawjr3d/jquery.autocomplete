@@ -1,5 +1,6 @@
 /*
- * Version: 0.5.3
+ * jquery.autocomplete
+ * Current version: 0.5.3
  * 
  * For full documentation go to https://github.com/wawjr3d/jquery.autocomplete
  */
